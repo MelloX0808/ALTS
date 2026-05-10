@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ALTS Enterprise Inventory</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo">ALTS<br><span style="font-size: 12px; color: var(--text-muted);">INVENTORY</span></div>
+        <button class="nav-btn" onclick="switchView('dashboard')">Dashboard</button>
+        <button class="nav-btn active" onclick="switchView('catalog')">Parts Catalog</button>
+        <button class="nav-btn" onclick="switchView('stock')">Stock Levels</button>
+        <button class="nav-btn" onclick="switchView('orders')">Purchase List</button>
+        <button class="nav-btn" onclick="switchView('reports')">Reports</button>
+        <div style="flex-grow: 1;"></div>
+        <button class="nav-btn" onclick="toggleTheme()" style="margin-top: auto; border-top: 1px solid var(--border);">🌓 Toggle Theme</button>
+    </nav>
+
+    <main class="main-content">
+        <section id="view-catalog" class="view-section active">
+            <div class="top-bar">
+                <h2 class="page-title">PARTS CATALOG</h2>
+                <button class="btn-primary" onclick="openNewEntry()">+ NEW PART ENTRY</button>
+            </div>
+            <div class="catalog-filters">
+                <select id="catFilter" onchange="applyFilters()">
+                    <option value="ALL">All Categories</option>
+                    <option value="Engine">Engine</option>
+                    <option value="Brakes">Brakes</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="Electrical">Electrical</option>
+                </select>
+                <input type="text" id="catalogSearch" placeholder="Search by name or brand..." oninput="applyFilters()" style="width: 300px;">
+            </div>
+            <div class="parts-grid" id="catalogGrid"></div>
+        </section>
+
+        <section id="view-stock" class="view-section">
+            <div class="top-bar"><h2 class="page-title">STOCK LEVELS</h2></div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Part Details</th><th>Brand</th><th>Category</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="stockTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="view-orders" class="view-section">
+            <div class="top-bar">
+                <h2 class="page-title">PURCHASE LIST</h2>
+                <div>
+                    <button class="btn-secondary" onclick="removeSelectedItems()" style="color: var(--danger); border-color: var(--danger); margin-right: 10px;">🗑 REMOVE SELECTED</button>
+                    <button class="btn-secondary" onclick="clearCart()">🗑 CLEAR ALL</button>
+                </div>
+            </div>
+            <div class="cart-container" id="cartItemsContainer"></div>
+            <div class="cart-summary">
+                <div class="summary-total">TOTAL: <span id="cartTotal">₱0.00</span></div>
+                <button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="checkoutCart()">✔ COMPLETE PURCHASE</button>
+            </div>
+        </section>
+
+        <section id="view-reports" class="view-section">
+            <div class="top-bar"><h2 class="page-title">REPORTS</h2></div>
+            <div class="reports-grid">
+                <div class="report-card"><p class="stat-title">Total Inventory Value</p><p class="stat-value" id="repValue">₱0</p></div>
+                <div class="report-card"><p class="stat-title">Top Brand</p><p class="stat-value" id="repBrand">-</p></div>
+                <div class="report-card"><p class="stat-title">Top Category</p><p class="stat-value" id="repCat">-</p></div>
+            </div>
+        </section>
+
+        <section id="view-dashboard" class="view-section">
+            <div class="top-bar"><h2 class="page-title">DASHBOARD</h2></div>
+            <div class="stats-row" id="dashStats"></div>
+            <div class="dash-panel">
+                <h3 class="dash-panel-title">Action Required: Low Stock</h3>
+                <table class="data-table"><tbody id="dashLowStockTable"></tbody></table>
+            </div>
+        </section>
+
+        <section id="view-entry-form" class="view-section">
+            <div class="top-bar">
+                <h2 class="page-title" id="formTitle">NEW PART ENTRY</h2>
+                <div>
+                    <button class="btn-secondary" onclick="switchView('catalog')" style="margin-right: 10px;">CANCEL</button>
+                    <button class="btn-primary" id="saveBtn" onclick="savePart()">SAVE PART</button>
+                </div>
+            </div>
+            <div class="form-grid">
+                <div class="form-panel">
+                    <h3 class="form-panel-title">Basic Information</h3>
+                    <input type="hidden" id="editId">
+                    <div class="input-row">
+                        <div><label class="form-label">Part Name</label><input type="text" id="pName"></div>
+                        <div><label class="form-label">Brand</label><input type="text" id="pBrand"></div>
+                    </div>
+                    <div class="input-row">
+                        <div><label class="form-label">Category</label>
+                            <select id="pCat">
+                                <option value="Engine">Engine</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Suspension">Suspension</option>
+                                <option value="Electrical">Electrical</option>
+                            </select>
+                        </div>
+                        <div><label class="form-label">Price (₱)</label><input type="number" id="pPrice"></div>
+                    </div>
+                    <div class="input-row">
+                        <div><label class="form-label">Stock Qty</label><input type="number" id="pQty"></div>
+                        <div><label class="form-label">Alert Level</label><input type="number" id="pThreshold"></div>
+                    </div>
+                    <div><label class="form-label">Description</label><textarea id="pDesc" rows="3"></textarea></div>
+                </div>
+                <div class="form-panel">
+                    <h3 class="form-panel-title">Media</h3>
+                    <input type="file" id="pImage" onchange="previewImg(this)">
+                    <div style="margin-top: 15px; height: 200px; background: var(--bg-dark); border-radius: 4px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <img id="pPreview" style="max-width: 100%; max-height: 100%; display: none;">
+                        <span id="pPlaceholder">No Image Selected</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const API_URL = 'http://127.0.0.1:5000/inventory';
+        let fullInventory = [];
+        let shoppingCart = [];
+        let currentMode = 'create'; // 'create' or 'edit'
+
+        function toggleTheme() { document.body.classList.toggle('light-theme'); }
+        
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById('view-' + (viewId === 'new-entry' ? 'entry-form' : viewId));
+            if(target) target.classList.add('active');
+
+            if(['catalog', 'stock', 'reports', 'dashboard'].includes(viewId)) loadData();
+            if(viewId === 'orders') renderCart();
+        }
+
+        async function loadData() {
+            const res = await fetch(API_URL);
+            fullInventory = await res.json();
+            applyFilters();
+            renderStockTable();
+            renderReports();
+            renderDashboard();
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('catalogSearch').value.toLowerCase();
+            const catTerm = document.getElementById('catFilter').value;
+            
+            const filtered = fullInventory.filter(p => {
+                const matchesSearch = p.part_name.toLowerCase().includes(searchTerm) || (p.brand && p.brand.toLowerCase().includes(searchTerm));
+                const matchesCat = catTerm === 'ALL' || p.category === catTerm;
+                return matchesSearch && matchesCat;
+            });
+            renderCatalog(filtered);
+        }
+
+        function renderCatalog(data) {
+            const grid = document.getElementById('catalogGrid');
+            grid.innerHTML = '';
+            data.forEach(p => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <div class="card-img-placeholder">${p.image_url ? `<img src="${p.image_url}">` : 'NO IMAGE'}</div>
+                        <div class="card-header"><h3 class="card-title">${p.part_name}</h3><p class="card-price">₱${p.price}</p></div>
+                        <p class="card-sku">${p.brand} | ${p.category}</p>
+                        <div class="card-actions">
+                            <button class="btn-cart" onclick="addToCart(${p.id}, '${p.part_name}', ${p.price}, '${p.image_url}')">🛒 ADD TO PURCHASE</button>
+                            <button class="btn-secondary" onclick="openEdit(${p.id})">EDIT INFO</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function openNewEntry() {
+            currentMode = 'create';
+            document.getElementById('formTitle').innerText = 'NEW PART ENTRY';
+            document.getElementById('editId').value = '';
+            document.getElementById('pName').value = '';
+            document.getElementById('pBrand').value = '';
+            document.getElementById('pPrice').value = 0;
+            document.getElementById('pQty').value = 0;
+            document.getElementById('pThreshold').value = 5;
+            document.getElementById('pDesc').value = '';
+            document.getElementById('pPreview').style.display = 'none';
+            document.getElementById('pPlaceholder').style.display = 'block';
+            switchView('new-entry');
+        }
+
+        function openEdit(id) {
+            const p = fullInventory.find(item => item.id === id);
+            if(!p) return;
+            currentMode = 'edit';
+            document.getElementById('formTitle').innerText = 'EDIT PART: ' + p.part_name;
+            document.getElementById('editId').value = p.id;
+            document.getElementById('pName').value = p.part_name;
+            document.getElementById('pBrand').value = p.brand || '';
+            document.getElementById('pCat').value = p.category || 'Engine';
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pQty').value = p.quantity;
+            document.getElementById('pThreshold').value = p.threshold;
+            document.getElementById('pDesc').value = p.description || '';
+            
+            if(p.image_url) {
+                document.getElementById('pPreview').src = p.image_url;
+                document.getElementById('pPreview').style.display = 'block';
+                document.getElementById('pPlaceholder').style.display = 'none';
+            }
+            switchView('new-entry');
+        }
+
+        async function savePart() {
+            const formData = new FormData();
+            formData.append('action', currentMode === 'edit' ? 'edit' : 'create');
+            if(currentMode === 'edit') formData.append('id', document.getElementById('editId').value);
+            
+            formData.append('name', document.getElementById('pName').value);
+            formData.append('brand', document.getElementById('pBrand').value);
+            formData.append('category', document.getElementById('pCat').value);
+            formData.append('price', document.getElementById('pPrice').value);
+            formData.append('qty', document.getElementById('pQty').value);
+            formData.append('threshold', document.getElementById('pThreshold').value);
+            formData.append('description', document.getElementById('pDesc').value);
+            
+            const file = document.getElementById('pImage').files[0];
+            if(file) formData.append('image', file);
+
+            await fetch(API_URL, { method: 'POST', body: formData });
+            alert("Success!");
+            switchView('catalog');
+        }
+
+        function previewImg(input) {
+            if(input.files && input.files[0]) {
+                document.getElementById('pPreview').src = URL.createObjectURL(input.files[0]);
+                document.getElementById('pPreview').style.display = 'block';
+                document.getElementById('pPlaceholder').style.display = 'none';
+            }
+        }
+
+        // CART LOGIC
+        function addToCart(id, name, price, img) {
+            let item = shoppingCart.find(i => i.id === id);
+            if(item) item.qty++;
+            else shoppingCart.push({ id, name, price, img, qty: 1 });
+            alert(name + " added!");
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            container.innerHTML = '';
+            let total = 0;
+            shoppingCart.forEach(i => {
+                total += (i.price * i.qty);
+                container.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <input type="checkbox" class="cart-checkbox" value="${i.id}">
+                            <img src="${i.img}" class="cart-img" onerror="this.style.display='none'">
+                            <div><h4>${i.name}</h4><p>₱${i.price}</p></div>
+                        </div>
+                        <div class="cart-qty-controls">
+                            <button class="cart-qty-btn" onclick="updateQty(${i.id}, -1)">-</button>
+                            <span>${i.qty}</span>
+                            <button class="cart-qty-btn" onclick="updateQty(${i.id}, 1)">+</button>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('cartTotal').innerText = '₱' + total.toFixed(2);
+        }
+
+        function updateQty(id, chg) {
+            let i = shoppingCart.find(item => item.id === id);
+            if(i) {
+                if(i.qty + chg <= 0) {
+                    if(confirm("Remove item?")) shoppingCart = shoppingCart.filter(item => item.id !== id);
+                } else {
+                    i.qty += chg;
+                }
+            }
+            renderCart();
+        }
+
+        function clearCart() { if(confirm("Clear all?")) { shoppingCart = []; renderCart(); } }
+
+        async function checkoutCart() {
+            for(let i of shoppingCart) {
+                await fetch(API_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({action: 'update', id: i.id, amount: -i.qty})});
+            }
+            alert("Checkout complete!");
+            shoppingCart = [];
+            switchView('catalog');
+        }
+
+        // OTHER VIEWS
+        function renderStockTable() {
+            const b = document.getElementById('stockTableBody'); b.innerHTML = '';
+            fullInventory.forEach(p => {
+                b.innerHTML += `<tr><td><strong>${p.part_name}</strong></td><td>${p.brand}</td><td>${p.category}</td><td>${p.quantity}</td><td>${p.quantity <= p.threshold ? 'LOW' : 'OK'}</td><td><button onclick="openEdit(${p.id})">Edit</button></td></tr>`;
+            });
+        }
+
+        function renderReports() {
+            let val = 0;
+            fullInventory.forEach(p => val += (p.price * p.quantity));
+            document.getElementById('repValue').innerText = '₱' + val.toLocaleString();
+        }
+
+        function renderDashboard() {
+            const low = fullInventory.filter(p => p.quantity <= p.threshold);
+            const tb = document.getElementById('dashLowStockTable'); tb.innerHTML = '';
+            low.forEach(p => tb.innerHTML += `<tr><td>${p.part_name}</td><td>${p.quantity}</td></tr>`);
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>

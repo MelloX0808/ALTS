@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ALTS Sign Up</title>
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2 class="auth-title">NEW OPERATOR</h2>
+            <p class="auth-subtitle">Create Access Profile</p>
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Desired User ID</label>
+            <input type="text" id="newUserBox" class="auth-input" placeholder="e.g. TECH-01" onkeydown="if(event.key === 'Enter') tryRegister()">
+        </div>
+
+        <div class="input-group">
+            <label class="input-label">Security PIN / Password</label>
+            <input type="password" id="newPassBox" class="auth-input" placeholder="••••••••" onkeydown="if(event.key === 'Enter') tryRegister()">
+        </div>
+
+        <button class="btn-auth" onclick="tryRegister()">REGISTER PROFILE</button>
+        <p id="statusMsg"></p>
+        
+        <a href="login.html" class="auth-link">Return to Login Gateway</a>
+    </div>
+
+    <script>
+        async function tryRegister() {
+            const u = document.getElementById('newUserBox').value;
+            const p = document.getElementById('newPassBox').value;
+
+            if (u === "" || p === "") {
+                document.getElementById('statusMsg').innerText = "Please fill in all fields.";
+                document.getElementById('statusMsg').style.color = "#ef4444";
+                return;
+            }
+
+            const payload = { username: u, password: p };
+
+            const res = await fetch('http://127.0.0.1:5000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            
+            if (data.success) {
+                document.getElementById('statusMsg').style.color = "#16a34a";
+                document.getElementById('statusMsg').innerText = "Profile created! Initializing gateway...";
+                
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } else {
+                document.getElementById('statusMsg').style.color = "#ef4444";
+                document.getElementById('statusMsg').innerText = data.error;
+            }
+        }
+    </script>
+</body>
+</html>
