@@ -135,3 +135,11 @@ input:focus, select:focus { outline: none; border-color: var(--accent); }
 /* EDIT MODE UI */
 .edit-mode-header { border-left: 5px solid #fbbf24 !important; }
 .search-highlight { background-color: rgba(234, 88, 12, 0.1); border: 1px solid var(--accent); }
+
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); }
+.modal-content { background-color: var(--bg-card); margin: 5% auto; padding: 20px; border: 1px solid var(--accent); width: 60%; border-radius: 8px; color: var(--text-main); position: relative; }
+.view-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; }
+.view-image-container img { width: 100%; border-radius: 8px; }
+.sku-tag { background: #333; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; }
+.view-info-row { display: flex; justify-content: space-between; margin: 15px 0; padding: 10px 0; border-top: 1px solid #333; }
+.close { position: absolute; right: 20px; top: 10px; font-size: 28px; cursor: pointer; color: var(--text-dim); }
