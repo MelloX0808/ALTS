@@ -159,14 +159,7 @@
                 
                 <div class="pos-right">
                     <h3 style="margin: 0 0 15px 0; color: var(--accent); text-transform: uppercase; font-size: 15px;">Checkout Details</h3>
-                    <div style="margin-bottom: 15px;">
-                        <label class="form-label">Customer Name / ID (Optional)</label>
-                        <input type="text" placeholder="e.g. Walk-in or John Doe">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label class="form-label">Reference Number (Optional)</label>
-                        <input type="text" placeholder="Invoice #">
-                    </div>
+                    
                     <hr style="border-color: var(--border); margin-bottom: 20px;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-muted); font-size: 14px;">
                         <span>Subtotal</span><span id="cartSub">₱0.00</span>
@@ -294,10 +287,10 @@
             </div>
 
             <div style="border-top: 1px solid var(--border); padding-top: 20px;">
-                <h4 style="margin: 0 0 15px 0; color: var(--danger); font-size: 13px; text-transform: uppercase;">Change Password</h4>
+                <h4 style="margin: 0 0 15px 0; color: var(--accent); font-size: 13px; text-transform: uppercase;">CHANGE PASSWORD</h4>
                 <div style="margin-bottom: 10px;"><label class="form-label">New Password</label><input type="password" id="setNewPwd" placeholder="Enter new password"></div>
                 <div style="margin-bottom: 20px;"><label class="form-label">Admin Confirmation Code</label><input type="password" id="setAdminCode" placeholder="Required for authorization"></div>
-                <button class="btn-primary" style="width: 100%; background: var(--danger);" onclick="executePasswordChange()">CONFIRM PASSWORD CHANGE</button>
+                <button class="btn-primary" style="width: 100%;" onclick="executePasswordChange()">CONFIRM PASSWORD CHANGE</button>
             </div>
         </div>
     </div>
@@ -787,7 +780,7 @@
             document.getElementById('adjustId').value = id;
             document.getElementById('adjustType').value = type;
             document.getElementById('adjustModalTitle').innerText = type === 'add' ? 'ADD STOCK' : 'REMOVE STOCK';
-            document.getElementById('adjustModalDesc').innerText = `Enter amount to ${type} for ${escapeHTML(p.part_name)}. \n Current stock: ${p.quantity}`;
+            document.getElementById('adjustModalDesc').innerHTML = `Enter amount to ${type} for ${escapeHTML(p.part_name)}.<br>Current stock: ${p.quantity}`;
             document.getElementById('adjustAmount').value = '';
             document.getElementById('stockAdjustModal').style.display = 'block';
             document.getElementById('adjustAmount').focus();
