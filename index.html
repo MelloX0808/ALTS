@@ -71,10 +71,16 @@
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <select id="catFilter" onchange="applyFilters()" style="flex: 1; max-width: 200px;">
                     <option value="ALL">All Categories</option>
-                    <option value="Engine">Engine</option><option value="Brakes">Brakes</option><option value="Suspension">Suspension</option>
-                    <option value="Electrical">Electrical</option><option value="Transmission">Transmission</option><option value="Exhaust">Exhaust</option>
-                    <option value="Tires">Tires/Wheels</option><option value="Accessories">Accessories</option><option value="Body">Body/Frame</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Body">Body/Frame</option>
+                    <option value="Brakes">Brakes</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Engine">Engine</option>
+                    <option value="Exhaust">Exhaust</option>
                     <option value="Oils">Oils & Fluids</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="Tires">Tires/Wheels</option>
+                    <option value="Transmission">Transmission</option>
                 </select>
                 <select id="brandFilter" onchange="applyFilters()" style="flex: 1; max-width: 200px;">
                     <option value="ALL">All Brands</option>
@@ -120,18 +126,32 @@
 
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <select id="stockCatFilter" onchange="applyStockFilters()" style="flex: 1; max-width: 180px;">
-                    <option value="ALL">All Categories</option><option value="Engine">Engine</option><option value="Brakes">Brakes</option><option value="Suspension">Suspension</option>
-                    <option value="Electrical">Electrical</option><option value="Transmission">Transmission</option><option value="Exhaust">Exhaust</option>
-                    <option value="Tires">Tires/Wheels</option><option value="Accessories">Accessories</option><option value="Body">Body/Frame</option>
+                    <option value="ALL">All Categories</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Body">Body/Frame</option>
+                    <option value="Brakes">Brakes</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Engine">Engine</option>
+                    <option value="Exhaust">Exhaust</option>
                     <option value="Oils">Oils & Fluids</option>
+                    <option value="Suspension">Suspension</option>
+                    <option value="Tires">Tires/Wheels</option>
+                    <option value="Transmission">Transmission</option>
                 </select>
                 <select id="stockBrandFilter" onchange="applyStockFilters()" style="flex: 1; max-width: 180px;">
                     <option value="ALL">All Brands</option>
                 </select>
-                <select id="stockSort" onchange="applyStockFilters()" style="flex: 1; max-width: 180px;">
-                    <option value="name">Sort by Name</option>
-                    <option value="qty-low">Sort by Stock (Low to High)</option>
-                    <option value="qty-high">Sort by Stock (High to Low)</option>
+                <select id="stockQtySort" onchange="applyStockFilters()" style="flex: 1; max-width: 210px;">
+                    <option value="qty-none">Stock Quantity</option>
+                    <option value="qty-high">High to Low</option>
+                    <option value="qty-low">Low to High</option>
+                </select>
+                <select id="stockStatusFilter" onchange="applyStockFilters()" style="flex: 1; max-width: 210px;">
+                    <option value="ALL">All Statuses</option>
+                    <option value="out-of-stock">Out of Stock</option>
+                    <option value="critical">Critical</option>
+                    <option value="low-stock">Low Stock</option>
+                    <option value="in-stock">In-stock</option>
                 </select>
                 
                 <input type="text" id="stockSearch" placeholder="Search inventory..." oninput="applyStockFilters()" style="flex: 2;">
@@ -234,11 +254,11 @@
                     </div>
 
                     <div class="input-row">
-                        <div style="flex: 2;"><label class="form-label">Part Name</label><input type="text" id="pName" placeholder="e.g. Brake Pads Front"></div>
+                        <div style="flex: 2;"><label class="form-label">Part Name</label><input type="text" id="pName" placeholder="e.g. Brake Pads Front" required></div>
                         <div style="flex: 1;">
                             <label class="form-label">Brand</label>
                             <div style="display: flex; gap: 5px;">
-                                <select id="pBrand" onchange="autoGenerateSKU()"><option value="" disabled selected>Select Brand...</option></select>
+                                <select id="pBrand" onchange="autoGenerateSKU()" required><option value="" disabled selected>Select Brand...</option></select>
                                 <button type="button" onclick="document.getElementById('addBrandModal').style.display='block'" class="btn-secondary" style="padding: 0 15px;">+</button>
                             </div>
                         </div>
@@ -246,18 +266,25 @@
                     <div class="input-row">
                         <div style="flex: 2;">
                             <label class="form-label">Category</label>
-                            <select id="pCat" onchange="autoGenerateSKU()">
-                                <option value="Engine">Engine</option><option value="Brakes">Brakes</option><option value="Suspension">Suspension</option><option value="Electrical">Electrical</option>
-                                <option value="Transmission">Transmission</option><option value="Exhaust">Exhaust</option><option value="Tires">Tires/Wheels</option><option value="Accessories">Accessories</option>
-                                <option value="Body">Body/Frame</option><option value="Oils">Oils & Fluids</option>
+                            <select id="pCat" onchange="autoGenerateSKU()" required>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Body">Body/Frame</option>
+                                <option value="Brakes">Brakes</option>
+                                <option value="Electrical">Electrical</option>
+                                <option value="Engine">Engine</option>
+                                <option value="Exhaust">Exhaust</option>
+                                <option value="Oils">Oils & Fluids</option>
+                                <option value="Suspension">Suspension</option>
+                                <option value="Tires">Tires/Wheels</option>
+                                <option value="Transmission">Transmission</option>
                             </select>
                         </div>
-                        <div style="flex: 1;"><label class="form-label">Selling Price (₱)</label><input type="number" id="pPrice" min="0" step="0.01" placeholder="0.00"></div>
+                        <div style="flex: 1;"><label class="form-label">Selling Price (₱)</label><input type="number" id="pPrice" min="0" step="0.01" placeholder="0.00" required onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"></div>
                     </div>
 
                     <div class="input-row" id="stockMetaRow">
-                        <div id="initialStockRow"><label class="form-label">Initial Stock Qty</label><input type="number" id="pQty" min="0" placeholder="0"></div>
-                        <div id="thresholdRow"><label class="form-label">Low Alert Level</label><input type="number" id="pThreshold" min="0" placeholder="5"></div>
+                        <div id="initialStockRow"><label class="form-label">Initial Stock Qty</label><input type="number" id="pQty" min="0" step="1" placeholder="0" required onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"></div>
+                        <div id="thresholdRow"><label class="form-label">Low Alert Level</label><input type="number" id="pThreshold" min="0" step="1" placeholder="5" required onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"></div>
                     </div>
 
                     <div style="margin-top: 15px;"><label class="form-label">Description</label><textarea id="pDesc" rows="4" placeholder="Enter product details..."></textarea></div>
@@ -277,32 +304,44 @@
     </main>
 
     <div id="settingsModal" class="modal">
-        <div class="modal-content" style="width: 400px;">
-            <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="document.getElementById('settingsModal').style.display='none'">&times;</span>
-            <h3 style="margin: 0 0 20px 0; color: var(--accent); text-transform: uppercase;">System Settings</h3>
-            
-            <div style="background: var(--bg-input); padding: 15px; border-radius: 4px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
-                <strong style="font-size: 14px;">Interface Theme</strong>
-                <button class="btn-secondary" onclick="toggleTheme()"><img src="icons/theme.png" class="btn-icon-img" onerror="this.style.display='none'"> Toggle Theme</button>
-            </div>
+    <div class="modal-content" style="width: 400px;">
+        <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="document.getElementById('settingsModal').style.display='none'">✖</span>
+        <h3 style="margin: 0 0 20px 0; color: var(--accent); text-transform: uppercase;">System Settings</h3>
+        
+        <div style="background: var(--bg-input); padding: 15px; border-radius: 4px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+            <strong style="font-size: 14px;">Interface Theme</strong>
+            <button class="btn-secondary" onclick="toggleTheme()"><img src="icons/theme.png" class="btn-icon-img" onerror="this.style.display='none'"> Toggle Theme</button>
+        </div>
 
-            <div style="border-top: 1px solid var(--border); padding-top: 20px;">
-                <h4 style="margin: 0 0 15px 0; color: var(--accent); font-size: 13px; text-transform: uppercase;">CHANGE PASSWORD</h4>
-                <div style="margin-bottom: 10px;"><label class="form-label">New Password</label><input type="password" id="setNewPwd" placeholder="Enter new password"></div>
-                <div style="margin-bottom: 20px;"><label class="form-label">Admin Confirmation Code</label><input type="password" id="setAdminCode" placeholder="Required for authorization"></div>
-                <button class="btn-primary" style="width: 100%;" onclick="executePasswordChange()">CONFIRM PASSWORD CHANGE</button>
+        <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+            <h4 style="margin: 0 0 15px 0; color: var(--accent); font-size: 13px; text-transform: uppercase;">CHANGE PASSWORD</h4>
+            <div style="margin-bottom: 10px; position: relative;">
+                <label class="form-label">New Password</label>
+                <input type="password" id="setNewPwd" placeholder="Enter new password" style="padding-right: 40px;">
+                <svg class="eye-icon" onclick="toggleSettingsPassword('setNewPwd')" viewBox="0 0 24 24" style="position: absolute; right: 12px; bottom: 10px; width: 18px; height: 18px; fill: var(--text-muted); cursor: pointer;">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
             </div>
+            <div style="margin-bottom: 20px; position: relative;">
+                <label class="form-label">Admin Confirmation Code</label>
+                <input type="password" id="setAdminCode" placeholder="Required for authorization" style="padding-right: 40px;">
+                <svg class="eye-icon" onclick="toggleSettingsPassword('setAdminCode')" viewBox="0 0 24 24" style="position: absolute; right: 12px; bottom: 10px; width: 18px; height: 18px; fill: var(--text-muted); cursor: pointer;">
+                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                </svg>
+            </div>
+            <button class="btn-primary" style="width: 100%;" onclick="executePasswordChange()">CONFIRM PASSWORD CHANGE</button>
         </div>
     </div>
+</div>
 
     <div id="stockAdjustModal" class="modal">
         <div class="modal-content" style="width: 320px;">
-            <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeAdjustModal()">&times;</span>
+            <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeAdjustModal()">✖</span>
             <h3 id="adjustModalTitle" style="margin: 0 0 10px 0; color: var(--accent);">Adjust Stock</h3>
             <p id="adjustModalDesc" style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.4;"></p>
             
             <label class="form-label">Amount</label>
-            <input type="number" id="adjustAmount" min="1" step="1" style="margin-bottom: 20px;" placeholder="0">
+            <input type="number" id="adjustAmount" min="1" step="1" style="margin-bottom: 20px;" placeholder="0" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();">
             <input type="hidden" id="adjustId">
             <input type="hidden" id="adjustType">
             
@@ -312,13 +351,13 @@
 
    <div id="stockEditModal" class="modal">
     <div class="modal-content" style="width: 400px;">
-        <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeStockModal()">&times;</span>
+        <span style="position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: var(--text-muted);" onclick="closeStockModal()">✖</span>
         <h3 style="margin: 0 0 20px 0; color: var(--accent);" id="seName">Manage Stock & Alerts</h3>
         <input type="hidden" id="seId">
         
-        <div style="margin-bottom: 15px;"><label class="form-label">Edit Quantity</label><input type="number" id="seQuantity" min="0"></div>
+        <div style="margin-bottom: 15px;"><label class="form-label">Edit Quantity</label><input type="number" id="seQuantity" min="0" step="1" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"></div>
         
-        <div style="margin-bottom: 20px;"><label class="form-label">Low Stock Threshold</label><input type="number" id="seThreshold" min="0"></div>
+        <div style="margin-bottom: 20px;"><label class="form-label">Low Stock Threshold</label><input type="number" id="seThreshold" min="0" step="1" onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault();"></div>
         
         <button class="btn-primary" style="width: 100%; margin-bottom: 15px;" onclick="saveStockSettings()"><img src="icons/save.png" class="btn-icon-img" onerror="this.style.display='none'"> SAVE SETTINGS</button>
         <hr style="border-color: var(--border); margin: 20px 0;">
@@ -350,7 +389,7 @@
 
     <div id="pastReportModal" class="modal">
     <div class="modal-content past-report-content">
-        <span class="modal-close" onclick="document.getElementById('pastReportModal').style.display='none'">&times;</span>
+        <span class="modal-close" onclick="document.getElementById('pastReportModal').style.display='none'">✖</span>
         <div class="past-report-header">
             <h3 class="past-report-title">Historical Report</h3>
             <p id="prLabel" class="past-report-period"></p>
@@ -401,8 +440,127 @@
         let transactionHistory = []; 
         let pastReportCache = [];
         let currentMode = 'create'; 
+        const SHOW_HISTORICAL_REPORT_PREVIEW = true;
 
         function escapeHTML(str) { return str ? str.toString().replace(/[&<>'"]/g, t => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[t] || t)) : ''; }
+        function sortAlpha(a, b) { return a.localeCompare(b, undefined, { sensitivity: 'base' }); }
+
+        function getFieldErrorHost(input) {
+            return input.id === 'pBrand' ? input.parentElement.parentElement : input.parentElement;
+        }
+
+        function getFieldErrorAnchor(input) {
+            return input.id === 'pBrand' ? input.parentElement : input;
+        }
+
+        function showFieldError(id, message = 'Required') {
+            const input = document.getElementById(id);
+            if (!input) return;
+            const host = getFieldErrorHost(input);
+            let error = document.getElementById(`${id}Error`);
+            if (!error) {
+                error = document.createElement('div');
+                error.id = `${id}Error`;
+                error.className = 'field-error';
+                host.insertBefore(error, getFieldErrorAnchor(input));
+            }
+            error.innerText = message;
+            error.classList.add('active');
+            input.classList.add('input-invalid');
+        }
+
+        function clearFieldError(id) {
+            const input = document.getElementById(id);
+            const error = document.getElementById(`${id}Error`);
+            if (error) error.classList.remove('active');
+            if (input) input.classList.remove('input-invalid');
+        }
+
+        function validateRequired(id) {
+            const input = document.getElementById(id);
+            if (!input || input.value.toString().trim() !== '') {
+                clearFieldError(id);
+                return true;
+            }
+            showFieldError(id);
+            return false;
+        }
+
+        function clearFieldErrors(ids) { ids.forEach(clearFieldError); }
+
+        function sanitizePlainTextInput(input) {
+            const clean = input.value.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s{2,}/g, ' ');
+            if (input.value !== clean) input.value = clean;
+        }
+
+        function sanitizeIntegerInput(input) {
+            const clean = input.value.replace(/\D/g, '');
+            if (input.value !== clean) input.value = clean;
+        }
+
+        function sanitizePriceInput(input) {
+            let clean = input.value.replace(/[^\d.]/g, '');
+            const parts = clean.split('.');
+            if (parts.length > 1) clean = `${parts[0]}.${parts.slice(1).join('').slice(0, 2)}`;
+            if (input.value !== clean) input.value = clean;
+        }
+
+        function formatPriceInput(input) {
+            if (input.value.trim() === '') return;
+            const amount = parseFloat(input.value);
+            input.value = Number.isFinite(amount) ? amount.toFixed(2) : '';
+        }
+
+        function bindInputRules() {
+            if (bindInputRules.bound) return;
+            bindInputRules.bound = true;
+
+            ['pName', 'newBrandInput'].forEach(id => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                input.addEventListener('input', () => { sanitizePlainTextInput(input); clearFieldError(id); });
+            });
+
+            ['pQty', 'pThreshold', 'adjustAmount', 'seQuantity', 'seThreshold'].forEach(id => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                input.addEventListener('input', () => { sanitizeIntegerInput(input); clearFieldError(id); });
+            });
+
+            const priceInput = document.getElementById('pPrice');
+            if (priceInput) {
+                priceInput.addEventListener('input', () => { sanitizePriceInput(priceInput); clearFieldError('pPrice'); });
+                priceInput.addEventListener('blur', () => formatPriceInput(priceInput));
+            }
+
+            ['pBrand', 'pCat', 'setNewPwd', 'setAdminCode'].forEach(id => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                input.addEventListener('input', () => clearFieldError(id));
+                input.addEventListener('change', () => clearFieldError(id));
+            });
+        }
+
+        function getStockState(p) {
+            const qty = parseInt(p.quantity || 0);
+            const threshold = parseInt(p.threshold || 0);
+            if (qty === 0) return { key: 'out-of-stock', rank: 0, label: 'OUT OF STOCK', badgeClass: 'badge-oos' };
+            if (qty <= 5) return { key: 'critical', rank: 1, label: 'CRITICAL', badgeClass: 'badge-critical' };
+            if (qty <= threshold) return { key: 'low-stock', rank: 2, label: 'LOW STOCK', badgeClass: 'badge-low' };
+            return { key: 'in-stock', rank: 3, label: 'IN-STOCK', badgeClass: 'badge-ok' };
+        }
+
+        function getStockCounts(items) {
+            const counts = { outOfStock: 0, critical: 0, lowStock: 0, inStock: 0 };
+            items.forEach(p => {
+                const state = getStockState(p);
+                if (state.key === 'out-of-stock') counts.outOfStock++;
+                else if (state.key === 'critical') counts.critical++;
+                else if (state.key === 'low-stock') counts.lowStock++;
+                else counts.inStock++;
+            });
+            return counts;
+        }
 
         function showToast(message, isError = false) {
             const container = document.getElementById('toastContainer');
@@ -426,8 +584,15 @@
 
         async function executePasswordChange() {
             const pwd = document.getElementById('setNewPwd').value, code = document.getElementById('setAdminCode').value, user = localStorage.getItem('currentUser');
-            if(!pwd || !code) return showToast("Please fill in both fields.", true);
-            if(!user) return showToast("User ID missing. Log out and try again.", true);
+            const isValid = ['setNewPwd', 'setAdminCode'].map(validateRequired).every(Boolean);
+            if(!isValid) {
+                showToast("Please fill in all required fields.", true);
+                return;
+            }
+            if(!user) {
+                showToast("User ID missing. Log out and try again.", true);
+                return;
+            }
             try {
                 const res = await fetch('http://127.0.0.1:5000/change-password', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ username: user, new_password: pwd, admin_code: code }) });
                 const data = await res.json();
@@ -481,25 +646,10 @@
                     }
                 } catch (txErr) {}
 
-                // INJECT MOCK DATA FOR HISTORICAL REPORTS (Guarantees data populates across 3 different cycles)
-                if (transactionHistory.length < 10) {
-                    let now = new Date();
-                    let cycle0 = new Date(now); cycle0.setDate(now.getDate() - 5);  // Current 14 days
-                    let cycle1 = new Date(now); cycle1.setDate(now.getDate() - 20); // Past cycle 1
-                    let cycle2 = new Date(now); cycle2.setDate(now.getDate() - 35); // Past cycle 2
-                    
-                    transactionHistory.push({ created_at: cycle0.toISOString(), type: 'SALE', part_name: 'Brake Fluid DOT 4', qty: 2, total_price: 600, part_id: 999 });
-                    transactionHistory.push({ created_at: cycle1.toISOString(), type: 'SALE', part_name: 'Mock Exhaust Pipe', qty: 4, total_price: 15000, part_id: 998 });
-                    transactionHistory.push({ created_at: cycle1.toISOString(), type: 'SALE', part_name: 'Racing Spark Plugs', qty: 8, total_price: 2400, part_id: 997 });
-                    transactionHistory.push({ created_at: cycle2.toISOString(), type: 'SALE', part_name: 'Mock Brake Pads', qty: 10, total_price: 8000, part_id: 996 });
-                    transactionHistory.push({ created_at: cycle2.toISOString(), type: 'SALE', part_name: 'Synthetic Engine Oil', qty: 5, total_price: 4500, part_id: 995 });
-                }
-                
                 refreshBrandDropdown(); applyFilters(); applyStockFilters(); renderCart(); renderReports(); renderDashboard();
             } catch (err) { showToast("Cannot connect to server.", true); }
         }
 
-        // CATALOG FILTERS & RENDER
         function applyFilters() {
             const term = document.getElementById('catalogSearch').value.toLowerCase();
             const cat = document.getElementById('catFilter').value;
@@ -512,12 +662,19 @@
                 return mSearch && mCat && mBrand;
             });
             const grid = document.getElementById('catalogGrid'); grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                closeDetailsPane();
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">No items found.</div>';
+                return;
+            }
+
             filtered.forEach(p => {
                 const isOOS = p.quantity === 0;
                 grid.innerHTML += `
                     <div class="card ${isOOS ? 'oos' : ''}" onclick="openViewItem(${p.id})">
                         <div class="card-img-placeholder">${p.image_url ? `<img src="${p.image_url}" style="width:100%; height:100%; object-fit:cover;">` : '<span style="color:var(--text-muted); font-size:12px;">NO IMAGE</span>'}</div>
-                        <h3 class="card-title">${escapeHTML(p.part_name)}</h3><p class="card-price">₱${parseFloat(p.price).toLocaleString(undefined, {minimumFractionDigits: 2})}</p>
+                        <h3 class="card-title">${escapeHTML(p.part_name)}</h3><p class="card-price">₱${parseFloat(p.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
                         <p class="card-sku" style="margin-bottom:15px;"><span style="color:var(--accent); font-weight:bold;">${escapeHTML(getDisplaySKU(p))}</span> | ${escapeHTML(p.brand)}</p>
                         <div class="card-actions">
                             ${isOOS ? `<button class="btn-primary" disabled style="width:100%;">OUT OF STOCK</button>` : `<button class="btn-cart" onclick="event.stopPropagation(); addToCart(${p.id}, '${escapeHTML(p.part_name).replace(/'/g, "\\'")}', ${p.price}, '${p.image_url || ''}')"><img src="icons/add.png" class="btn-icon-img" onerror="this.style.display='none'"> ADD TO LIST</button>`}
@@ -542,7 +699,7 @@
             }
             document.getElementById('viewPartName').innerText = p.part_name; document.getElementById('viewPartSKU').innerText = getDisplaySKU(p);
             document.getElementById('viewPartBrand').innerText = p.brand; document.getElementById('viewPartCat').innerText = p.category;
-            document.getElementById('viewPartPrice').innerText = parseFloat(p.price).toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('viewPartPrice').innerText = parseFloat(p.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             document.getElementById('viewPartQty').innerText = p.quantity; document.getElementById('viewPartDesc').innerText = getCleanDescription(p);
             
             const container = document.getElementById('viewActionContainer');
@@ -555,7 +712,7 @@
         function closeDetailsPane() { document.getElementById('itemDetailsPane').classList.add('hidden'); }
 
         function refreshBrandDropdown() {
-            const brands = [...new Set(fullInventory.map(p => p.brand).filter(b => b))];
+            const brands = [...new Set(fullInventory.map(p => p.brand).filter(b => b))].sort(sortAlpha);
             
             const entrySelect = document.getElementById('pBrand');
             entrySelect.innerHTML = '<option value="" disabled selected>Select Brand...</option>';
@@ -577,18 +734,28 @@
             document.getElementById('pSKU').value = generated; document.getElementById('pSKUDisplay').innerText = generated;
         }
         function confirmNewBrand() {
-            const newBrand = document.getElementById('newBrandInput').value;
-            if (newBrand && newBrand.trim() !== "") {
-                const clean = escapeHTML(newBrand.trim()); const select = document.getElementById('pBrand');
+            const brandInput = document.getElementById('newBrandInput');
+            sanitizePlainTextInput(brandInput);
+            if (!validateRequired('newBrandInput')) {
+                showToast("Brand name is required.", true);
+                return;
+            }
+            const newBrand = brandInput.value.trim();
+            if (newBrand) {
+                const clean = escapeHTML(newBrand); const select = document.getElementById('pBrand');
                 if (!Array.from(select.options).some(o => o.value === clean)) select.add(new Option(clean, clean));
-                select.value = clean; autoGenerateSKU(); showToast(`Brand '${clean}' added!`); document.getElementById('addBrandModal').style.display = 'none';
+                const sortedBrands = Array.from(select.options).slice(1).map(o => o.value).sort(sortAlpha);
+                select.innerHTML = '<option value="" disabled>Select Brand...</option>';
+                sortedBrands.forEach(b => select.add(new Option(b, b)));
+                select.value = clean; clearFieldError('pBrand'); autoGenerateSKU(); showToast(`Brand '${clean}' added!`); document.getElementById('addBrandModal').style.display = 'none';
             } else { showToast("Brand name cannot be empty.", true); }
         }
 
         function openNewEntry() {
+            clearFieldErrors(['pName','pBrand','pCat','pPrice','pQty','pThreshold']);
             currentMode = 'create'; document.getElementById('formTitle').innerHTML = 'NEW PART ENTRY <span class="live-clock"></span>';
             ['editId','pName','pBrand','pPrice','pDesc'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('pCat').value = 'Engine';
+            document.getElementById('pCat').value = 'Accessories';
             document.getElementById('stockMetaRow').style.display = 'flex';
             document.getElementById('initialStockRow').style.display = 'flex'; document.getElementById('pQty').value = 0; document.getElementById('thresholdRow').style.display = 'flex'; document.getElementById('pThreshold').value = 5;
             document.getElementById('pImage').value = '';
@@ -597,6 +764,7 @@
         }
 
         function openEdit(id) {
+            clearFieldErrors(['pName','pBrand','pCat','pPrice','pQty','pThreshold']);
             const p = fullInventory.find(i => i.id === id);
             if(!p) return;
             currentMode = 'edit'; document.getElementById('formTitle').innerHTML = 'EDIT PART <span class="live-clock"></span>';
@@ -604,7 +772,7 @@
             refreshBrandDropdown();
             const select = document.getElementById('pBrand');
             if (p.brand && !Array.from(select.options).some(o => o.value === p.brand)) select.add(new Option(escapeHTML(p.brand), escapeHTML(p.brand)));
-            select.value = p.brand || ""; document.getElementById('pCat').value = p.category; document.getElementById('pPrice').value = p.price; document.getElementById('pDesc').value = getCleanDescription(p);
+            select.value = p.brand || ""; document.getElementById('pCat').value = p.category; document.getElementById('pPrice').value = parseFloat(p.price || 0).toFixed(2); document.getElementById('pDesc').value = getCleanDescription(p);
             document.getElementById('stockMetaRow').style.display = 'none';
             document.getElementById('initialStockRow').style.display = 'none'; document.getElementById('thresholdRow').style.display = 'none';
             const displaySKU = escapeHTML(getDisplaySKU(p)); document.getElementById('pSKU').value = displaySKU; document.getElementById('pSKUDisplay').innerText = displaySKU;
@@ -615,20 +783,33 @@
         }
 
         async function savePart() {
-            const name = document.getElementById('pName').value;
-            if(!name) return showToast("Part name is required!", true);
+            formatPriceInput(document.getElementById('pPrice'));
+            const requiredIds = ['pName', 'pBrand', 'pCat', 'pPrice'];
+            if (currentMode === 'create') requiredIds.push('pQty', 'pThreshold');
+            const isValid = requiredIds.map(validateRequired).every(Boolean);
+            if (!isValid) {
+                showToast("Please fill all required fields.", true);
+                return;
+            }
+
+            const name = document.getElementById('pName').value.trim();
+            const price = document.getElementById('pPrice').value;
+            const brand = document.getElementById('pBrand').value;
+            const qty = document.getElementById('pQty').value;
+            const threshold = document.getElementById('pThreshold').value;
+
             const btn = document.getElementById('savePartBtn'); btn.disabled = true; btn.innerHTML = `<img src="icons/save.png" class="btn-icon-img" onerror="this.style.display='none'"> SAVING...`;
             
             const formData = new FormData(); formData.append('action', currentMode === 'edit' ? 'edit' : 'create');
             if(currentMode === 'edit') formData.append('id', document.getElementById('editId').value);
             
             const rawSku = document.getElementById('pSKU').value || 'NO-SKU'; const rawDesc = document.getElementById('pDesc').value || '';
-            formData.append('name', escapeHTML(name)); formData.append('brand', escapeHTML(document.getElementById('pBrand').value || "Generic"));
-            formData.append('category', escapeHTML(document.getElementById('pCat').value)); formData.append('price', document.getElementById('pPrice').value || 0);
+            formData.append('name', escapeHTML(name)); formData.append('brand', escapeHTML(brand));
+            formData.append('category', escapeHTML(document.getElementById('pCat').value)); formData.append('price', price);
             formData.append('description', escapeHTML(rawSku) + ': ' + escapeHTML(rawDesc));
             
             if(currentMode === 'create') {
-                formData.append('qty', parseInt(document.getElementById('pQty').value) || 0); formData.append('threshold', parseInt(document.getElementById('pThreshold').value) || 5);
+                formData.append('qty', parseInt(qty)); formData.append('threshold', parseInt(threshold));
             } else {
                 const existingPart = fullInventory.find(i=>i.id == document.getElementById('editId').value);
                 formData.append('qty', existingPart.quantity); formData.append('threshold', existingPart.threshold);
@@ -650,12 +831,17 @@
             }
         }
 
-        // POS CART LOGIC
         function addToCart(id, name, price, img) {
             let item = shoppingCart.find(i => i.id === id); let invItem = fullInventory.find(i => i.id === id);
-            if(invItem.quantity <= 0) return showToast("Out of stock!", true);
+            if(invItem.quantity <= 0) {
+                showToast("Out of stock!", true);
+                return;
+            }
             if(item) {
-                if(item.qty >= invItem.quantity) return showToast("Not enough stock available.", true);
+                if(item.qty >= invItem.quantity) {
+                    showToast("Not enough stock available.", true);
+                    return;
+                }
                 item.qty++;
             } else { shoppingCart.push({ id, name, price, img, qty: 1 }); }
             showToast(`${name} added to cart!`);
@@ -674,19 +860,19 @@
                             <div style="width:50px; height:50px; background:var(--bg-input); border-radius:4px; overflow:hidden;">${item.img ? `<img src="${item.img}" style="width:100%; height:100%; object-fit:cover;">` : ''}</div>
                             <div>
                                 <strong style="display:block;">${escapeHTML(item.name)}</strong>
-                                <span style="color:var(--accent); font-weight:bold;">₱${parseFloat(item.price).toLocaleString()}</span>
+                                <span style="color:var(--accent); font-weight:bold;">₱${parseFloat(item.price).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
                                 <span style="font-size:11px; color:var(--text-muted); margin-left:10px;">Stock Left: ${stockLeft}</span>
                             </div>
                         </div>
                         <div style="display:flex; align-items:center; gap:10px; background:var(--bg-input); padding:5px 10px; border-radius:4px;">
-                            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;" onclick="updateQty(${item.id}, -1)">➖</button>
+                            <button class="qty-icon-btn" onclick="updateQty(${item.id}, -1)">-</button>
                             <span style="font-weight:bold; width:30px; text-align:center;">${item.qty}</span>
-                            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:18px;" onclick="updateQty(${item.id}, 1)">➕</button>
+                            <button class="qty-icon-btn" onclick="updateQty(${item.id}, 1)">+</button>
                         </div>
                     </div>`;
             });
-            document.getElementById('cartTotal').innerText = '₱' + total.toLocaleString(undefined, {minimumFractionDigits: 2});
-            document.getElementById('cartSub').innerText = '₱' + total.toLocaleString(undefined, {minimumFractionDigits: 2});
+            document.getElementById('cartTotal').innerText = '₱' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('cartSub').innerText = '₱' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
         function updateQty(id, chg) {
             let i = shoppingCart.find(item => item.id === id); let invItem = fullInventory.find(p => p.id === id);
@@ -699,12 +885,18 @@
         }
         function removeSelectedItems() {
             const checkboxes = document.querySelectorAll('.cart-checkbox:checked');
-            if (checkboxes.length === 0) return showToast("Select items to remove.", true);
+            if (checkboxes.length === 0) {
+                showToast("Select items to remove.", true);
+                return;
+            }
             const ids = Array.from(checkboxes).map(cb => parseInt(cb.getAttribute('data-id')));
             shoppingCart = shoppingCart.filter(item => !ids.includes(item.id)); renderCart();
         }
         async function checkoutCart() {
-            if(shoppingCart.length === 0) return showToast("Cart is empty!", true);
+            if(shoppingCart.length === 0) {
+                showToast("Cart is empty!", true);
+                return;
+            }
             try {
                 for(let i of shoppingCart) {
                     await fetch(API_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({action: 'update', id: i.id, amount: -i.qty})});
@@ -715,34 +907,44 @@
             } catch (e) { showToast("Server error during checkout.", true); }
         }
 
-        // STOCK LEVELS LOGIC
         function applyStockFilters() {
             const term = document.getElementById('stockSearch').value.toLowerCase();
-            const sort = document.getElementById('stockSort').value;
+            const qtySort = document.getElementById('stockQtySort').value;
+            const statusTerm = document.getElementById('stockStatusFilter').value;
             const catTerm = document.getElementById('stockCatFilter').value;
             const brandTerm = document.getElementById('stockBrandFilter').value;
             
             let filtered = fullInventory.filter(p => {
                 const displaySKU = getDisplaySKU(p);
+                const stockState = getStockState(p);
                 const mSearch = p.part_name.toLowerCase().includes(term) || displaySKU.toLowerCase().includes(term);
                 const mCat = (catTerm === 'ALL' || p.category === catTerm);
                 const mBrand = (brandTerm === 'ALL' || p.brand === brandTerm);
-                return mSearch && mCat && mBrand;
+                const mStatus = (statusTerm === 'ALL' || stockState.key === statusTerm);
+                return mSearch && mCat && mBrand && mStatus;
             });
             
-            if(sort === 'qty-low') filtered.sort((a,b) => a.quantity - b.quantity); else if(sort === 'qty-high') filtered.sort((a,b) => b.quantity - a.quantity); else filtered.sort((a,b) => a.part_name.localeCompare(b.part_name));
+            if (qtySort === 'qty-low') {
+                filtered.sort((a,b) => a.quantity - b.quantity);
+            } else if (qtySort === 'qty-high') {
+                filtered.sort((a,b) => b.quantity - a.quantity);
+            } else {
+                filtered.sort((a,b) => getStockState(a).rank - getStockState(b).rank || a.part_name.localeCompare(b.part_name));
+            }
             renderStockTable(filtered);
         }
 
         function renderStockTable(data) {
             const b = document.getElementById('stockTableBody'); b.innerHTML = '';
-            let outOfStockCount = 0; let criticalCount = 0;
+            const stockCounts = getStockCounts(fullInventory);
+
+            if (data.length === 0) {
+                b.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-muted); padding: 24px;">No items found.</td></tr>';
+            }
 
             data.forEach(p => {
-                let s = '<span class="badge badge-ok">OK</span>';
-                if(p.quantity === 0) { s = '<span class="badge badge-oos">OUT OF STOCK</span>'; outOfStockCount++; }
-                else if(p.quantity <= 5) { s = '<span class="badge badge-critical">CRITICAL</span>'; criticalCount++; }
-                else if(p.quantity <= p.threshold) { s = '<span class="badge badge-low">LOW</span>'; criticalCount++; }
+                const stockState = getStockState(p);
+                const s = `<span class="badge ${stockState.badgeClass}">${stockState.label}</span>`;
 
                 b.innerHTML += `<tr>
                     <td style="font-family:monospace; color:var(--accent); font-weight:bold;">${escapeHTML(getDisplaySKU(p))}</td>
@@ -750,31 +952,25 @@
                     <td style="font-weight:bold; font-size:16px;">${p.quantity}</td><td>${s}</td> 
                     <td style="text-align:center;">
                         <div style="display:inline-flex; gap: 8px;">
-                            <button class="btn-secondary" style="padding:4px 10px; font-weight:bold;" title="Remove Stock" onclick="promptStockChange(${p.id}, 'remove')">➖</button>
-                            <button class="btn-secondary" style="padding:4px 10px; font-weight:bold;" title="Add Stock" onclick="promptStockChange(${p.id}, 'add')">➕</button>
+                            <button class="qty-icon-btn" title="Remove Stock" onclick="promptStockChange(${p.id}, 'remove')">-</button>
+                            <button class="qty-icon-btn" title="Add Stock" onclick="promptStockChange(${p.id}, 'add')">+</button>
                             <button class="btn-secondary" style="padding:4px 10px;" title="Edit Alert Settings" onclick="openStockModal(${p.id})"><img src="icons/edit.png" class="btn-icon-img" onerror="this.style.display='none'"></button>
                         </div>
                     </td>
                 </tr>`;
             });
 
+            document.getElementById('stockSummaryCards').style.display = 'grid';
+            document.getElementById('stockSummaryCards').style.gridTemplateColumns = 'repeat(5, 1fr)';
             document.getElementById('stockSummaryCards').innerHTML = `
-                <div class="card">
-                    <p class="card-stat-title">Total Unique Parts</p>
-                    <p class="card-stat-value">${fullInventory.length}</p>
-                </div>
-                <div class="card" style="border-bottom: 3px solid var(--warning);">
-                    <p class="card-stat-title" style="color: var(--warning);">Low / Critical Items</p>
-                    <p class="card-stat-value" style="color: var(--warning);">${criticalCount}</p>
-                </div>
-                <div class="card" style="border-bottom: 3px solid var(--text-muted);">
-                    <p class="card-stat-title">Out of Stock</p>
-                    <p class="card-stat-value">${outOfStockCount}</p>
-                </div>
+                <div class="card"><p class="card-stat-title">Unique Parts</p><p class="card-stat-value">${fullInventory.length.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom: 3px solid var(--text-muted);"><p class="card-stat-title">Out of Stock</p><p class="card-stat-value">${stockCounts.outOfStock.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom: 3px solid var(--danger);"><p class="card-stat-title" style="color: var(--danger);">Critical</p><p class="card-stat-value" style="color: var(--danger);">${stockCounts.critical.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom: 3px solid var(--warning);"><p class="card-stat-title" style="color: var(--warning);">Low Stock</p><p class="card-stat-value" style="color: var(--warning);">${stockCounts.lowStock.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom: 3px solid var(--success);"><p class="card-stat-title" style="color: var(--success);">In Stock</p><p class="card-stat-value" style="color: var(--success);">${stockCounts.inStock.toLocaleString()}</p></div>
             `;
         }
 
-        // CUSTOM ADJUST STOCK MODAL
         function promptStockChange(id, type) {
             const p = fullInventory.find(i=>i.id===id);
             document.getElementById('adjustId').value = id;
@@ -782,52 +978,86 @@
             document.getElementById('adjustModalTitle').innerText = type === 'add' ? 'ADD STOCK' : 'REMOVE STOCK';
             document.getElementById('adjustModalDesc').innerHTML = `Enter amount to ${type} for ${escapeHTML(p.part_name)}.<br>Current stock: ${p.quantity}`;
             document.getElementById('adjustAmount').value = '';
+            clearFieldError('adjustAmount');
             document.getElementById('stockAdjustModal').style.display = 'block';
             document.getElementById('adjustAmount').focus();
         }
         function closeAdjustModal() { document.getElementById('stockAdjustModal').style.display = 'none'; }
         
         function confirmStockAdjust() {
+            if (!validateRequired('adjustAmount')) {
+                showToast("Amount is required.", true);
+                return;
+            }
             const amtStr = document.getElementById('adjustAmount').value;
             const amt = parseInt(amtStr);
             const id = parseInt(document.getElementById('adjustId').value);
             const type = document.getElementById('adjustType').value;
             const p = fullInventory.find(i=>i.id===id);
 
-            if(isNaN(amt) || amt <= 0) return showToast("Invalid amount.", true);
-            if(type === 'remove' && amt > p.quantity) return showToast(`Cannot remove ${amt}. Only ${p.quantity} in stock.`, true);
+            if(isNaN(amt) || amt <= 0) {
+                showToast("Invalid amount.", true);
+                return;
+            }
+            if(type === 'remove' && amt > p.quantity) {
+                showToast(`Cannot remove ${amt}. Only ${p.quantity} in stock.`, true);
+                return;
+            }
 
             closeAdjustModal();
             showConfirmModal(`Are you sure you want to ${type} ${amt} units of ${p.part_name}?`, async () => {
                 const adj = type === 'add' ? amt : -amt;
                 await fetch(API_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({action: 'update', id: id, amount: adj})});
-                if(type === 'add') await fetch(TX_API_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: 'RESTOCK', part_id: id, amount: adj, total_price: 0})});
+                await fetch(TX_API_URL, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({type: type === 'add' ? 'RESTOCK' : 'STOCK OUT', part_id: id, amount: amt, total_price: 0})});
                 showToast("Stock updated."); loadData();
             });
         }
 
         function openStockModal(id) {
-    const p = fullInventory.find(i => i.id === id);
-    if(!p) return;
-    document.getElementById('seId').value = p.id; 
-    document.getElementById('seName').innerText = 'Manage: ' + p.part_name;
-    document.getElementById('seQuantity').value = p.quantity; // Added this line
-    document.getElementById('seThreshold').value = p.threshold;
-    document.getElementById('stockEditModal').style.display = 'block';
-}
+            clearFieldErrors(['seQuantity','seThreshold']);
+            const p = fullInventory.find(i => i.id === id);
+            if(!p) return;
+            document.getElementById('seId').value = p.id;
+            document.getElementById('seName').innerText = 'Manage: ' + p.part_name;
+            document.getElementById('seQuantity').value = p.quantity;
+            document.getElementById('seThreshold').value = p.threshold;
+            document.getElementById('stockEditModal').style.display = 'block';
+        }
         function closeStockModal() { document.getElementById('stockEditModal').style.display = 'none'; }
         async function saveStockSettings() {
+    const isValid = ['seQuantity', 'seThreshold'].map(validateRequired).every(Boolean);
+    if (!isValid) {
+        showToast("Please fill all required fields.", true);
+        return;
+    }
     const id = document.getElementById('seId').value;
-    const formData = new FormData(); 
-    formData.append('action', 'edit_stock'); 
+    const newQty = parseInt(document.getElementById('seQuantity').value);
+    const newThreshold = parseInt(document.getElementById('seThreshold').value);
+    
+    const oldItem = fullInventory.find(i => i.id == id);
+    const oldQty = oldItem ? oldItem.quantity : 0;
+    const diffQty = newQty - oldQty;
+    
+    const formData = new FormData();
+    formData.append('action', 'edit_stock');
     formData.append('id', id);
-    formData.append('qty', document.getElementById('seQuantity').value); // Use the new input
-    formData.append('threshold', document.getElementById('seThreshold').value);
+    formData.append('qty', newQty);
+    formData.append('threshold', newThreshold);
     
     await fetch(API_URL, { method: 'POST', body: formData });
-    closeStockModal(); 
-    showToast("Stock and Alert settings updated."); 
-    loadData(); 
+    
+    if (diffQty !== 0) {
+        const logType = diffQty > 0 ? 'RESTOCK' : 'STOCK OUT';
+        await fetch(TX_API_URL, { 
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'}, 
+            body: JSON.stringify({type: logType, part_id: id, amount: Math.abs(diffQty), total_price: 0}) 
+        });
+    }
+
+    closeStockModal();
+    showToast("Stock and Alert settings updated.");
+    loadData();
 }
         async function requestDeleteEntireItem() {
             showConfirmModal("CRITICAL WARNING: This will permanently delete this item AND its transaction history. Proceed?", async () => {
@@ -837,100 +1067,157 @@
             });
         }
 
-        // REPORTS LOGIC
+        function getHistoricalReportPreviewData() {
+            if (!SHOW_HISTORICAL_REPORT_PREVIEW) return [];
+
+            const fallbackItems = ['Brake Pads Front', 'Racing Spark Plugs', 'Synthetic Engine Oil', 'Chain Sprocket Set', 'Brake Fluid DOT 4'];
+            const inventoryNames = fullInventory.map(p => p.part_name).filter(Boolean);
+            const sampleItems = inventoryNames.length >= 5 ? inventoryNames.slice(0, 5) : fallbackItems;
+            const deadStockItems = fullInventory.filter(p => p.quantity > 0).slice(-3).map(p => p.part_name);
+            const fallbackDeadStock = deadStockItems.length ? deadStockItems : ['Mirror Set', 'Chain Guard', 'Handle Grip Pair'];
+            const today = new Date(); today.setHours(23,59,59,999);
+
+            const makeLabel = (bucketIndex) => {
+                const end = new Date(today); end.setDate(end.getDate() - (bucketIndex * 14));
+                const start = new Date(end); start.setDate(start.getDate() - 13); start.setHours(0,0,0,0);
+                return `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+            };
+
+            return [
+                {
+                    label: `${makeLabel(1)} (Preview)`,
+                    totalSalesValue: 28450,
+                    itemsSold: 37,
+                    brand: (fullInventory[0] && fullInventory[0].brand) || 'Honda',
+                    cat: (fullInventory[0] && fullInventory[0].category) || 'Brakes',
+                    itemCounts: {
+                        [sampleItems[0]]: 12,
+                        [sampleItems[1]]: 9,
+                        [sampleItems[2]]: 7,
+                        [sampleItems[3]]: 5,
+                        [sampleItems[4]]: 4
+                    },
+                    deadStockItems: fallbackDeadStock,
+                    isPreview: true
+                },
+                {
+                    label: `${makeLabel(2)} (Preview)`,
+                    totalSalesValue: 41680,
+                    itemsSold: 52,
+                    brand: (fullInventory[1] && fullInventory[1].brand) || 'Yamaha',
+                    cat: (fullInventory[1] && fullInventory[1].category) || 'Engine',
+                    itemCounts: {
+                        [sampleItems[2]]: 15,
+                        [sampleItems[3]]: 13,
+                        [sampleItems[0]]: 10,
+                        [sampleItems[4]]: 8,
+                        [sampleItems[1]]: 6
+                    },
+                    deadStockItems: fallbackDeadStock.slice().reverse(),
+                    isPreview: true
+                }
+            ];
+        }
+
         function renderReports() {
-    if (!transactionHistory) return;
-    let buckets = []; let today = new Date(); today.setHours(23,59,59,999);
+            if (!transactionHistory) return;
+            let buckets = []; let today = new Date(); today.setHours(23,59,59,999);
 
-    transactionHistory.forEach(tx => {
-        const d = new Date(tx.created_at || tx.date); const diffTime = Math.abs(today - d); const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); const bucketIndex = Math.floor(diffDays / 14);
-        if(!buckets[bucketIndex]) {
-            let end = new Date(today); end.setDate(end.getDate() - (bucketIndex * 14));
-            let start = new Date(end); start.setDate(start.getDate() - 13); start.setHours(0,0,0,0);
-            buckets[bucketIndex] = { index: bucketIndex, label: `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`, totalSalesValue: 0, itemsSold: 0, brandCounts: {}, catCounts: {}, itemCounts: {} };
+            transactionHistory.forEach(tx => {
+                const d = new Date(tx.created_at || tx.date); const diffTime = Math.abs(today - d); const diffDays = Math.floor(diffTime / 86400000); const bucketIndex = Math.floor(diffDays / 14);
+                if(!buckets[bucketIndex]) {
+                    let end = new Date(today); end.setDate(end.getDate() - (bucketIndex * 14));
+                    let start = new Date(end); start.setDate(start.getDate() - 13); start.setHours(0,0,0,0);
+                    buckets[bucketIndex] = { index: bucketIndex, label: `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`, totalSalesValue: 0, itemsSold: 0, brandCounts: {}, catCounts: {}, itemCounts: {} };
+                }
+                if ((tx.transaction_type || tx.type) === 'SALE') {
+                    const val = parseFloat(tx.total_price || tx.total || 0); const qty = parseInt(tx.amount || tx.qty || 0);
+                    buckets[bucketIndex].totalSalesValue += val; buckets[bucketIndex].itemsSold += qty;
+                    buckets[bucketIndex].itemCounts[tx.part_name] = (buckets[bucketIndex].itemCounts[tx.part_name] || 0) + qty;
+                    const p = fullInventory.find(inv => inv.id === tx.part_id);
+                    if(p) { buckets[bucketIndex].brandCounts[p.brand] = (buckets[bucketIndex].brandCounts[p.brand] || 0) + qty; buckets[bucketIndex].catCounts[p.category] = (buckets[bucketIndex].catCounts[p.category] || 0) + qty; }
+                }
+            });
+
+            const getTop = (counts) => { let topKey = '-'; let max = 0; for(const [k, v] of Object.entries(counts)) { if(v > max) { max = v; topKey = k; } } return topKey; };
+
+            let currentPeriod = buckets[0] || { totalSalesValue: 0, itemsSold: 0, brandCounts: {}, catCounts: {}, itemCounts: {} };
+            document.getElementById('repValue').innerText = '₱' + currentPeriod.totalSalesValue.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+            document.getElementById('repItems').innerText = currentPeriod.itemsSold.toLocaleString();
+            document.getElementById('repBrand').innerText = getTop(currentPeriod.brandCounts);
+            document.getElementById('repCat').innerText = getTop(currentPeriod.catCounts);
+
+            const pastContainer = document.getElementById('pastReportsContainer'); pastContainer.innerHTML = '';
+            const realPastReports = buckets.filter(b => b && b.index > 0).map(b => ({
+                label: b.label,
+                totalSalesValue: b.totalSalesValue,
+                itemsSold: b.itemsSold,
+                brand: getTop(b.brandCounts),
+                cat: getTop(b.catCounts),
+                itemCounts: b.itemCounts,
+                isPreview: false
+            }));
+            pastReportCache = realPastReports.concat(getHistoricalReportPreviewData());
+            pastReportCache.forEach((b, index) => {
+                const previewBadge = b.isPreview ? '<span style="color:var(--warning); font-size:11px; font-weight:800; text-transform:uppercase;">Preview only</span>' : '<span style="color:var(--text-muted); font-size:12px;">View Detailed Report</span>';
+                pastContainer.innerHTML += `
+                    <div style="background:var(--bg-input); padding: 15px; border-radius: 4px; margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;"
+                        onclick="openPastReportByIndex(${index})">
+                        <strong style="color:var(--accent); font-size:16px;">${b.label}</strong>
+                        ${previewBadge}
+                    </div>`;
+            });
+            if(!pastReportCache.length) pastContainer.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px;">No historical reports yet.</div>';
+            applyTxFilters();
         }
-        if ((tx.transaction_type || tx.type) === 'SALE') {
-            const val = parseFloat(tx.total_price || tx.total || 0); const qty = parseInt(tx.amount || tx.qty || 0);
-            buckets[bucketIndex].totalSalesValue += val; buckets[bucketIndex].itemsSold += qty; 
-            buckets[bucketIndex].itemCounts[tx.part_name] = (buckets[bucketIndex].itemCounts[tx.part_name] || 0) + qty;
-            const p = fullInventory.find(inv => inv.id === tx.part_id);
-            if(p) { buckets[bucketIndex].brandCounts[p.brand] = (buckets[bucketIndex].brandCounts[p.brand] || 0) + qty; buckets[bucketIndex].catCounts[p.category] = (buckets[bucketIndex].catCounts[p.category] || 0) + qty; }
+
+        function openPastReportByIndex(index) {
+            const report = pastReportCache[index];
+            if(!report) return;
+            openPastReport(report.label, report.totalSalesValue, report.itemsSold, report.brand, report.cat, report.itemCounts, report.deadStockItems, report.isPreview);
         }
-    });
 
-    const getTop = (counts) => { let topKey = '-'; let max = 0; for(const [k, v] of Object.entries(counts)) { if(v > max) { max = v; topKey = k; } } return topKey; };
+        function openPastReport(label, rev, sold, brand, cat, itemCounts, deadStockItems = null, isPreview = false) {
+            document.querySelector('#pastReportModal .past-report-title').innerText = isPreview ? 'Historical Report Preview' : 'Historical Report';
+            document.getElementById('prLabel').innerText = label;
+            document.getElementById('prRev').innerText = '₱' + rev.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+            document.getElementById('prItems').innerText = sold.toLocaleString();
+            document.getElementById('prBrand').innerText = brand;
+            document.getElementById('prCat').innerText = cat;
 
-    let currentPeriod = buckets[0] || { totalSalesValue: 0, itemsSold: 0, brandCounts: {}, catCounts: {}, itemCounts: {} };
-    document.getElementById('repValue').innerText = '₱' + currentPeriod.totalSalesValue.toLocaleString(undefined, {minimumFractionDigits:2});
-    document.getElementById('repItems').innerText = currentPeriod.itemsSold.toLocaleString();
-    document.getElementById('repBrand').innerText = getTop(currentPeriod.brandCounts);
-    document.getElementById('repCat').innerText = getTop(currentPeriod.catCounts);
+            const fm = document.getElementById('prFastMovers'); fm.innerHTML = '';
+            const top5 = Object.entries(itemCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+            if(top5.length) top5.forEach(i => fm.innerHTML += `<tr><td>${escapeHTML(i[0])}</td><td style="text-align:right; font-weight:bold;">${i[1]}</td></tr>`);
+            else fm.innerHTML = '<tr><td style="text-align:center; color:var(--text-muted);">No selling items in this period.</td></tr>';
 
-    const pastContainer = document.getElementById('pastReportsContainer'); pastContainer.innerHTML = '';
-    pastReportCache = buckets.filter(b => b && b.index > 0).map(b => ({
-        label: b.label,
-        totalSalesValue: b.totalSalesValue,
-        itemsSold: b.itemsSold,
-        brand: getTop(b.brandCounts),
-        cat: getTop(b.catCounts),
-        itemCounts: b.itemCounts
-    }));
-    pastReportCache.forEach((b, index) => {
-        pastContainer.innerHTML += `
-            <div style="background:var(--bg-input); padding: 15px; border-radius: 4px; margin-bottom: 10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" 
-                 onclick="openPastReportByIndex(${index})">
-                <strong style="color:var(--accent); font-size:16px;">${b.label}</strong>
-                <span style="color:var(--text-muted); font-size:12px;">View Detailed Report</span>
-            </div>`;
-    });
-    if(!pastReportCache.length) pastContainer.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding:20px;">No historical reports yet.</div>';
-    applyTxFilters();
-}
+            const ds = document.getElementById('prDeadStock'); ds.innerHTML = '';
+            if (deadStockItems) deadStockItems.forEach(name => ds.innerHTML += `<tr><td>${escapeHTML(name)}</td></tr>`);
+            else fullInventory.forEach(p => {
+                if(!itemCounts[p.part_name] && p.quantity > 0) ds.innerHTML += `<tr><td>${escapeHTML(p.part_name)}</td></tr>`;
+            });
+            if(!ds.innerHTML) ds.innerHTML = '<tr><td style="text-align:center; color:var(--success);">No dead stock in this period.</td></tr>';
 
-function openPastReportByIndex(index) {
-    const report = pastReportCache[index];
-    if(!report) return;
-    openPastReport(report.label, report.totalSalesValue, report.itemsSold, report.brand, report.cat, report.itemCounts);
-}
-
-function openPastReport(label, rev, sold, brand, cat, itemCounts) {
-    document.getElementById('prLabel').innerText = label;
-    document.getElementById('prRev').innerText = '₱' + rev.toLocaleString(undefined, {minimumFractionDigits:2});
-    document.getElementById('prItems').innerText = sold.toLocaleString();
-    document.getElementById('prBrand').innerText = brand;
-    document.getElementById('prCat').innerText = cat;
-
-    const fm = document.getElementById('prFastMovers'); fm.innerHTML = '';
-    const top5 = Object.entries(itemCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
-    if(top5.length) top5.forEach(i => fm.innerHTML += `<tr><td>${escapeHTML(i[0])}</td><td style="text-align:right; font-weight:bold;">${i[1]}</td></tr>`);
-    else fm.innerHTML = '<tr><td style="text-align:center; color:var(--text-muted);">No selling items in this period.</td></tr>';
-
-    const ds = document.getElementById('prDeadStock'); ds.innerHTML = '';
-    fullInventory.forEach(p => {
-        if(!itemCounts[p.part_name] && p.quantity > 0) ds.innerHTML += `<tr><td>${escapeHTML(p.part_name)}</td></tr>`;
-    });
-    if(!ds.innerHTML) ds.innerHTML = '<tr><td style="text-align:center; color:var(--success);">No dead stock in this period.</td></tr>';
-
-    document.getElementById('pastReportModal').style.display = 'block';
-}
+            document.getElementById('pastReportModal').style.display = 'block';
+        }
 
         function applyTxFilters() {
             const term = document.getElementById('txSearch').value.toLowerCase(), sort = document.getElementById('txSort').value;
-            let filtered = transactionHistory.filter(t => t.part_name.toLowerCase().includes(term) || (t.transaction_type || t.type).toLowerCase().includes(term));
+            let filtered = transactionHistory.filter(t => (t.part_name || '').toLowerCase().includes(term) || (t.transaction_type || t.type || '').toLowerCase().includes(term));
             if(sort === 'date-new') filtered.sort((a,b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
             else if(sort === 'date-old') filtered.sort((a,b) => new Date(a.created_at || a.date) - new Date(b.created_at || b.date));
             else if(sort === 'val-high') filtered.sort((a,b) => (b.total_price || b.total || 0) - (a.total_price || a.total || 0));
 
             const b = document.getElementById('txTableBody'); b.innerHTML = '';
-            if(filtered.length === 0) return b.innerHTML = '<tr><td colspan="5" style="text-align:center;">No transactions found.</td></tr>';
+            if(filtered.length === 0) return b.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">No transactions found.</td></tr>';
             filtered.forEach(t => {
-                const date = new Date(t.created_at || t.date).toLocaleString(), actualType = t.transaction_type || t.type;
-                const typeBadge = actualType === 'SALE' ? '<span class="badge badge-ok">SALE</span>' : '<span class="badge badge-low" style="background:rgba(234, 179, 8, 0.2); color:var(--warning);">RESTOCK</span>';
-                b.innerHTML += `<tr><td>${date}</td><td>${typeBadge}</td><td><strong>${escapeHTML(t.part_name)}</strong></td><td>${t.qty}</td><td style="color:var(--success); font-weight:bold;">₱${parseFloat(t.total_price || 0).toLocaleString(undefined, {minimumFractionDigits: 2})}</td></tr>`;
+                const date = new Date(t.created_at || t.date).toLocaleString(), actualType = (t.transaction_type || t.type || '').toUpperCase();
+                const qty = Math.abs(parseInt(t.qty || t.amount || 0));
+                const isMinus = actualType === 'SALE' || actualType === 'STOCK OUT' || actualType === 'REMOVE';
+                const typeBadge = actualType === 'SALE' ? '<span class="badge badge-ok">SALE</span>' : actualType === 'RESTOCK' ? '<span class="badge badge-low" style="background:rgba(234, 179, 8, 0.2); color:var(--warning);">RESTOCK</span>' : '<span class="badge badge-critical">STOCK OUT</span>';
+                b.innerHTML += `<tr><td>${date}</td><td>${typeBadge}</td><td><strong>${escapeHTML(t.part_name)}</strong></td><td>${isMinus ? '-' : '+'}${qty}</td><td style="color:var(--success); font-weight:bold;">₱${parseFloat(t.total_price || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td></tr>`;
             });
         }
 
-        // COMMAND CENTER DASHBOARD
         function renderDashboard() {
             let totalStock = 0, unitsSold = 0;
             fullInventory.forEach(p => totalStock += p.quantity);
@@ -938,18 +1225,9 @@ function openPastReport(label, rev, sold, brand, cat, itemCounts) {
             const low = fullInventory.filter(p => p.quantity <= p.threshold && p.quantity > 0), oos = fullInventory.filter(p => p.quantity === 0);
 
             document.getElementById('dashStats').innerHTML = `
-                <div class="card">
-                    <p class="card-stat-title">Total Stock (All Units)</p>
-                    <p class="card-stat-value">${totalStock}</p>
-                </div>
-                <div class="card" style="border-bottom:3px solid var(--success);">
-                    <p class="card-stat-title">Units Sold (All Time)</p>
-                    <p class="card-stat-value" style="color:var(--success);">${unitsSold}</p>
-                </div>
-                <div class="card" style="border-bottom:3px solid var(--danger);">
-                    <p class="card-stat-title" style="color:var(--danger);">Critical / Out of Stock</p>
-                    <p class="card-stat-value" style="color:var(--danger);">${low.length + oos.length}</p>
-                </div>
+                <div class="card"><p class="card-stat-title">Total Stock (All Units)</p><p class="card-stat-value">${totalStock.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom:3px solid var(--success);"><p class="card-stat-title">Units Sold (All Time)</p><p class="card-stat-value" style="color:var(--success);">${unitsSold.toLocaleString()}</p></div>
+                <div class="card" style="border-bottom:3px solid var(--danger);"><p class="card-stat-title" style="color:var(--danger);">Critical / Out of Stock</p><p class="card-stat-value" style="color:var(--danger);">${(low.length + oos.length).toLocaleString()}</p></div>
             `;
 
             const today = new Date(); today.setHours(23,59,59,999);
@@ -962,11 +1240,11 @@ function openPastReport(label, rev, sold, brand, cat, itemCounts) {
             });
 
             transactionHistory.forEach(t => {
-                const txDate = new Date(t.created_at);
+                const txDate = new Date(t.created_at || t.date);
                 if(txDate >= past14 && txDate <= today && (t.transaction_type||t.type)==='SALE') {
                     const p = fullInventory.find(i=>i.id===t.part_id) || {brand:"Unknown", category:"Unknown"};
                     topSellers[t.part_name] = (topSellers[t.part_name] || 0) + t.qty;
-                    const dayDiff = Math.floor((txDate - past14) / (1000*60*60*24));
+                    const dayDiff = Math.floor((txDate - past14) / 86400000);
                     if(dayDiff >= 0 && dayDiff < 14) {
                         dailyData[dayDiff].qty += t.qty;
                         dailyData[dayDiff].items[t.part_name] = (dailyData[dayDiff].items[t.part_name] || 0) + t.qty;
@@ -1002,10 +1280,16 @@ function openPastReport(label, rev, sold, brand, cat, itemCounts) {
             });
 
             const tel = document.getElementById('telemetryFeed'); tel.innerHTML = '';
+            if (transactionHistory.length === 0) {
+                tel.innerHTML = '<div class="tel-item" style="color:var(--text-muted);">No stock movement yet.</div>';
+            }
             transactionHistory.slice(0, 15).forEach(t => {
-                const type = t.transaction_type || t.type;
-                const dotColor = type === 'SALE' ? 'var(--success)' : 'var(--warning)';
-                tel.innerHTML += `<div class="tel-item"><div class="tel-dot" style="background:${dotColor}"></div><div style="line-height:1.2"><strong style="color:${dotColor}">${type}</strong>: ${t.qty}x ${escapeHTML(t.part_name)} <br><span style="font-size:10px; color:var(--text-muted);">${new Date(t.created_at).toLocaleString()}</span></div></div>`;
+                const type = (t.transaction_type || t.type || 'STOCK CHANGE').toUpperCase();
+                const qty = Math.abs(parseInt(t.qty || t.amount || 0));
+                const isMinus = type === 'SALE' || type === 'STOCK OUT' || type === 'REMOVE';
+                const dotColor = type === 'RESTOCK' ? 'var(--warning)' : isMinus && type !== 'SALE' ? 'var(--danger)' : 'var(--success)';
+                const sign = isMinus ? '-' : '+';
+                tel.innerHTML += `<div class="tel-item"><div class="tel-dot" style="background:${dotColor}"></div><div style="line-height:1.2"><strong style="color:${dotColor}">${type}</strong>: ${sign}${qty}x ${escapeHTML(t.part_name)} <br><span style="font-size:10px; color:var(--text-muted);">${new Date(t.created_at || t.date).toLocaleString()}</span></div></div>`;
             });
 
             const fm = document.getElementById('dashFastMovers'); fm.innerHTML = '';
@@ -1017,14 +1301,24 @@ function openPastReport(label, rev, sold, brand, cat, itemCounts) {
             const activeItemNames = Object.keys(topSellers);
             const dead = fullInventory.filter(p => !activeItemNames.includes(p.part_name) && p.quantity > 0);
             if(dead.length) dead.forEach(p => ds.innerHTML += `<tr><td><strong>${escapeHTML(p.part_name)}</strong></td><td>${escapeHTML(getDisplaySKU(p))}</td><td style="text-align:right; color:var(--danger);">${p.quantity} stuck</td></tr>`);
-            else ds.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--success); padding: 20px;">No dead stock!</td></tr>';
+            else ds.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--success); padding: 20px;">No items here.</td></tr>';
         }
 
         window.onload = async () => {
             if(localStorage.getItem('theme') === 'light') document.body.classList.add('light-theme');
+            bindInputRules();
             await loadData();
             switchView(localStorage.getItem('lastView') || 'dashboard');
         };
+
+        function toggleSettingsPassword(targetId) {
+    const el = document.getElementById(targetId);
+    if (el.type === "password") {
+        el.type = "text";
+    } else {
+        el.type = "password";
+    }
+}
     </script>
 </body>
 </html>
